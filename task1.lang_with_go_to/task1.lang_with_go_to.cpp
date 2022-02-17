@@ -35,7 +35,7 @@ inputWhile:
         int o = 0;
         int p = 0;
         int sizeOfString = 0;
-        cout << str << endl;
+
     strSize:
         if (str[sizeOfString]) {
             sizeOfString++;
