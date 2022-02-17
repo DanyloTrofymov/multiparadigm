@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <string>
 #include <fstream>
 
@@ -31,9 +31,6 @@ inputWhile:
     if (file >> str) {
         int i = 0;
         int j = 0;
-        int k = 0;
-        int o = 0;
-        int p = 0;
         int sizeOfString = 0;
 
     strSize:
@@ -44,43 +41,47 @@ inputWhile:
 
         //converting to lower case
     toLowerCycle:
-        if (k < sizeOfString) {
-            if (str[k] <= 'Z' && str[k] >= 'A') {
-                str[k] += 'a' - 'A';
+        if (i < sizeOfString) {
+            if (str[i] <= 'Z' && str[i] >= 'A') {
+                str[i] += 'a' - 'A';
             }
-            k++;
+            i++;
             goto toLowerCycle;
         }
+        i = 0;
         //filter the punctuation marks
     puncMarkCycle:
-        if (p < 6) {
-            if (str[sizeOfString - 1] == punctionMarks[p]) {
-                int t = 0;
+        if (i < 6) {
+            if (str[sizeOfString - 1] == punctionMarks[i]) {
+                j = 0;
                 sizeOfString--;
                 string tmpStr = "";
             copyStrCycle:
-                if (t < sizeOfString) {
-                    tmpStr += str[t];
-                    t++;
+                if (j < sizeOfString) {
+                    tmpStr += str[j];
+                    j++;
                     goto copyStrCycle;
                 }
                 str = tmpStr;
+                i = 0;
+                j = 0;
                 goto cycleStopWords;
             }
-            p++;
+            i++;
             goto puncMarkCycle;
         }
-
+        i = 0;
+        j = 0;
         //filtering the stop words
     cycleStopWords:
-        if (j < 23) {
-            if (str == stopWords[j]) {
+        if (i < 23) {
+            if (str == stopWords[i]) {
                 goto inputWhile;
             }
-            j++;
+            i++;
             goto cycleStopWords;
         }
-
+        i = 0;
         // checking if the word is already on mas
         // and adding if it's not
     cycleAlreadyOnMas:
@@ -96,12 +97,12 @@ inputWhile:
             pairsMas[alreadyOnMas] = { str, 1 };
             alreadyOnMas++;
         }
-
+        i = 0;
         //incerase the array size of needed
         if (alreadyOnMas + 1 == sizeOfPairsMas) {
             sizeOfPairsMas *= 2;
             Pair* tmpPairsMas = new Pair[sizeOfPairsMas];
-            int i = 0;
+            i = 0;
         copyingWords:
             if (i >= alreadyOnMas) {
                 goto allHasBeenCopied;
@@ -144,13 +145,13 @@ inputWhile:
         else {
             toOutput = alreadyOnMas;
         }
-        int k = 0;
+        i = 0;
     outputCycle:
-        if (k < toOutput) {
-            cout << pairsMas[k].strng;
+        if (i < toOutput) {
+            cout << pairsMas[i].strng;
             cout << " - ";
-            cout << pairsMas[k].count << endl;
-            k++;
+            cout << pairsMas[i].count << endl;
+            i++;
             goto outputCycle;
         }
     }
