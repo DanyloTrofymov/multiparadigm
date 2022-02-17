@@ -15,7 +15,6 @@ int main()
     int SIZE = 0;
     int sizeOfParsedStr = 25;
     int sizeOfDictionaryMas = 25;
-    int alreadyOnParsrdStr = 0;
     int alreadyOnDictionary = 0;
     const int LINES_IN_PAGE = 45;
     int currPage = 1;
@@ -40,7 +39,7 @@ int main()
 
 pages:
     if (file.peek() != EOF) {
-        
+        int alreadyOnParsrdStr = 0;
         int i = 0;
         int j = 0;
         int currWord = 0;
@@ -160,6 +159,10 @@ pages:
             i = 0;
             // checking if the word is already on mas
             // and adding if it's not
+            //for (int o = 0; o < alreadyOnDictionary; o++) {
+            //    cout << dictionary[o].strng << " ";
+            //}
+            //cout << endl;
 
         cycleAlreadyOnMas:
             if (i < alreadyOnDictionary) {
@@ -167,9 +170,9 @@ pages:
                     if (dictionary[i].countOfPages != 101) {
                         dictionary[i].pages[dictionary[i].countOfPages] = currPage;
                         dictionary[i].countOfPages++;
-                        currWord++;
-                        goto forEachStringInMas;
                     }
+                    currWord++;
+                    goto forEachStringInMas;
                 }
                 i++;
                 goto cycleAlreadyOnMas;
@@ -179,25 +182,26 @@ pages:
                 dictionary[alreadyOnDictionary].pages[0] = currPage;
                 dictionary[alreadyOnDictionary].countOfPages = 1;
                 alreadyOnDictionary++;
-            }
 
-            if (alreadyOnDictionary + 1 == sizeOfDictionaryMas) {
-                sizeOfDictionaryMas *= 2;
-                Pair* tmpDictMas = new Pair[sizeOfDictionaryMas];
-                int n = 0;
-            copyingWordsTwo:
-                if (n >= alreadyOnDictionary) {
-                    goto allHasBeenCopiedTwo;
+                if (alreadyOnDictionary + 1 == sizeOfDictionaryMas) {
+                    sizeOfDictionaryMas *= 2;
+                    Pair* tmpDictMas = new Pair[sizeOfDictionaryMas];
+                    int n = 0;
+                copyingWordsTwo:
+                    if (n >= alreadyOnDictionary) {
+                        goto allHasBeenCopiedTwo;
+                    }
+                    tmpDictMas[n] = dictionary[n];
+                    n++;
+                    goto copyingWordsTwo;
+                allHasBeenCopiedTwo:
+                    delete[] dictionary;
+                    dictionary = tmpDictMas;
                 }
-                tmpDictMas[n] = dictionary[n];
-                n++;
-                goto copyingWordsTwo;
-            allHasBeenCopiedTwo:
-                delete[] dictionary;
-                dictionary = tmpDictMas;
+
+                currWord++;
+                goto forEachStringInMas;
             }
-            currWord++;
-            goto forEachStringInMas;
         }
         goto pages;
     }
